@@ -1,0 +1,2 @@
+[global.databases]
+mysql_database = { url = "mysql://maria:pass@db:3306/animal?serverTimezone=UTC" }

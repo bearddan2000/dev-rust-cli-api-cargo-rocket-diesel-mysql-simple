@@ -1,0 +1,21 @@
+version: '3'
+services:
+  db:
+    image: mariadb:latest
+    volumes:
+      - ./db/sql:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_USER=maria
+      - MYSQL_PASSWORD=pass
+
+  rust-srv:
+    build: rust-srv
+    command: sh -c "/wait && main"
+    environment:
+      - WAIT_HOSTS=db:3306
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+    ports:
+      - 80:8000
